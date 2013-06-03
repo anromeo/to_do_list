@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+<h2>
+  <%= @list.title %>
+</h2>
+<%= link_to "New To Do", new_list_todo_path(@list) %> |
+<%= link_to 'Edit', edit_list_path(@list) %> |
+<%= link_to 'Back', lists_path %>
+<% if @todos.present? %>
+	<h3>To Do List</h3>
+	<%= form_for @list do |f| %>
+		<table>
+			<% @todos.each do |todo| %>
+				<tr>
+					<td>
+						<%= check_box_tag "finished[]",
+							todo.id %>
+					</td>
+					<td>
+						<%= todo.description %>
+					</td>
+					<td>
+						<%= link_to 'Edit', edit_list_todo_path(@list, todo) %>
+					</td>
+					<td>
+						<%= link_to 'Destroy', [@list, todo], :method=>:delete, :confirm => "Are you sure you want to delete this?" %>
+					</td>
+				</tr>
+			<% end %>
+			<tr>
+				<td colspan="4">
+					<%= f.submit "Done" %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+<% end %>
+<% if @donedos.present? %>
+	<h3>Done List</h3>
+	<table>
+		<% @donedos.each do |donedo| %>
+			<tr>
+				<td>
+					<%= donedo.description %>
+				</td>
+					<td>
+						<%= link_to 'Edit', [:edit, @list, donedo] %>
+					</td>
+					<td>
+						<%= link_to 'Destroy', [@list, donedo], :method=>:delete, :confirm => "Are you sure you want to delete this?" %>
+					</td>
+			</tr>
+		<% end %>
+	</table>
+<% end %>
